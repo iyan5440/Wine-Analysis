@@ -37,7 +37,7 @@ According to the original data source (Kaggle), this dataset focuses on determin
 
 One key aspect of winemaking is fermentation, where yeast breaks down sugars into alcohol and carbon dioxide. The amount of residual sugar left in the wine can indicate how effective the fermentation process was.
 
-Another characteristic I plan to explore is sulfur dioxide, which can influence yeast activity during fermentation, leading to variations in the final product. Additionally, according to UBC, some individuals may experience adverse reactions to sulfur dioxide (e.g., nausea, hives), making it a factor that could contribute to wine quality variability.
+Another impactful characteristic seems to be sulfur dioxide, which can influence yeast activity during fermentation. As a result, there can be a wide range of variations to the final product changing the quality. Additionally, according to UBC, some individuals may experience adverse reactions to sulfur dioxide (e.g., nausea, hives), making it a factor that could contribute to wine quality variability.
 """
 
 # Fixed Acidity distribution
