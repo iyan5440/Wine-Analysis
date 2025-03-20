@@ -12,15 +12,16 @@ import streamlit as st
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
-st.title("Wine Analysis",)
+st.title("Wine Analysis")
 # https://www.kaggle.com/datasets/yasserh/wine-quality-dataset
 # Wine quality dataset
 wine_url = 'https://raw.githubusercontent.com/turcotte/csi4106-f24/refs/heads/main/assignments-data/a1/05/WineQT.csv'
 
 wine_dataset = pd.read_csv(wine_url)
 
-# Attribute Analysis section
-st.header("Initial Look")
+wine_dataset = wine_dataset.drop(columns=["Id"])
+
+st.header("Preview of Dataset")
 
 st.dataframe(wine_dataset.head())
 
