@@ -18,28 +18,22 @@ st.title("Wine Analysis")
 wine_url = 'https://raw.githubusercontent.com/turcotte/csi4106-f24/refs/heads/main/assignments-data/a1/05/WineQT.csv'
 
 wine_dataset = pd.read_csv(wine_url)
-st.dataframe(wine_dataset.head())
+#st.dataframe(wine_dataset.head())
 
 # Attribute Analysis section
-st.header("Attribute Analysis")
+#st.header("Attribute Analysis")
 
 """
-# Background on my Dataset
+### Background on my Dataset
 
 
-The dataset I plan on analyzing further is the Wine dataset. To be clear, I'm not really familiar with wine, but I think I will still be able to have a good understanding of the data by reading information from the data source, and filling in the blanks where necessary.
+The dataset I plan to analyze further is the Wine Quality dataset. I don’t have a background in winemaking, but I believe that by researching and interpreting the provided data, along with its descriptions, I can properly understand and assess it.
 
-Based, on the data source [Kaggle](https://www.kaggle.com/datasets/yasserh/wine-quality-dataset), it seems like the dataset is about trying to classify the quality on different types of Portuguese wine. Specifically, classifying the quality on red variants of the "Vinho Verde" wine by quantifying their chemical properties.
+According to the original data source (Kaggle), this dataset focuses on determining wine quality, specifically for various Portuguese red wines under the "Vinho Verde" label. It captures chemical properties of these wines and assigns quality labels accordingly.
 
-3. **Attribute Analysis**:
+One key aspect of winemaking is fermentation, where yeast breaks down sugars into alcohol and carbon dioxide. The amount of residual sugar left in the wine can indicate how effective the fermentation process was.
 
-    3.1 Determine which attributes lack informativeness and should be excluded to prove the effectiveness of the machine learning analysis. If all features are emed relevant, explicitly state this conclusion.
-
-    3.2 Examine the distribution of each attribute (column) within the dataset. Utilize histograms or boxplots to visualize the distributions, identifying any underlying patterns or outliers.
-
-Due to my lack of domain knowledge on wine, I plan on keeping all of the attributes, as I am not a strong judge for their effectiveness. However, after doing some research, I was able to see which of the attributes should have an noticable effect on wine quality. Since, most wines are created through a fermentation process (the process of having yeast break down sugars into alcohol and carbon dioxide), the amount of residual sugar may show how effective that wine's fermentation process went.
-
-Another example is with sulfur dioxide. The dioxide, has the potential to effect the yeast during the fermentation process, giving rise to diverse changes in the fermentation process. According to UBC, there may be some bad reactions to it for some (nausea, hives, etc), making it a wine characteristic that could result in volatile results.
+Another characteristic I plan to explore is sulfur dioxide, which can influence yeast activity during fermentation, leading to variations in the final product. Additionally, according to UBC, some individuals may experience adverse reactions to sulfur dioxide (e.g., nausea, hives), making it a factor that could contribute to wine quality variability.
 """
 
 # Fixed Acidity distribution
