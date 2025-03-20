@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Wine Analysis.ipynb
+"""
+# Wine Analysis
+### By: Iyanu Aketepe
 
-**CSI 4106 Introduction to Artificial Intelligence** <br/>
-*Assignment 1: Data Preparation*
-
-# Identification
-
-Name: Iyanu Aketepe <br/>
-Student Number: 300170701
-
-# Exploratory Analysis
-
-## Import important libraries
+## Importing libraries
 """
 
 import pandas as pd
@@ -37,7 +29,7 @@ st.header("Attribute Analysis")
 
 The dataset I plan on analyzing further is the Wine dataset. To be clear, I'm not really familiar with wine, but I think I will still be able to have a good understanding of the data by reading information from the data source, and filling in the blanks where necessary.
 
-Based, on the data source (Kaggle), it seems like the dataset is about trying to classify the quality on different types of Portuguese wine. Specifically, classifying the quality on red variants of the "Vinho Verde" wine by quantifying their chemical properties.
+Based, on the data source [Kaggle](https://www.kaggle.com/datasets/yasserh/wine-quality-dataset), it seems like the dataset is about trying to classify the quality on different types of Portuguese wine. Specifically, classifying the quality on red variants of the "Vinho Verde" wine by quantifying their chemical properties.
 
 3. **Attribute Analysis**:
 
