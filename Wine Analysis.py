@@ -202,20 +202,13 @@ alt.Chart(scaled_wine_df, title="Standardized Levels of Residual Sugar in Red Va
     tooltip=['count()','residual sugar']
 ).interactive()
 
-"""NOTE: My target variable, the 'quality' attribute while categorical, is already in the form of numerical values. So I didn't feel the need to use the one hot encoder technique.
-
-6. **Training and target data**: Set the Python variable `X` to designate the data and `y` to designate the target class. Make sure to select only the informative features.
-"""
-
 wine_df = scaled_wine_df.copy()
 
 X = wine_df.drop(columns=['quality'],axis=1)
-X.head()
+st.dataframe(X.head())
 
 y = wine_df['quality']
 y
-
-"""7. **Training and test sets**: Split the dataset into training and testing sets. Reserve 20% of data for testing."""
 
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
 
@@ -244,8 +237,3 @@ https://www.geeksforgeeks.org/data-preprocessing-in-data-mining/
 https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html
 
 https://www.geeksforgeeks.org/how-to-split-the-dataset-with-scikit-learns-train_test_split-function/
-
-
-## AI transcript
-**Hint:** To share a link to your colab notebook, click on "share" on the top right. Then, under *General access* , change *Restricted* to "Anyone with the link".
-"""
