@@ -8,6 +8,8 @@
 
 import pandas as pd
 import altair as alt
+import seaborn as sns
+import matplotlib.pyplot as plt
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -39,6 +41,8 @@ One key aspect of winemaking is fermentation, where yeast breaks down sugars int
 
 Another impactful characteristic seems to be sulfur dioxide, which can influence yeast activity during fermentation. As a result, there can be a wide range of variations to the final product changing the quality. Additionally, according to UBC, some individuals may experience adverse reactions to sulfur dioxide (e.g., nausea, hives), making it a factor that could contribute to wine quality variability.
 """
+
+
 
 # Fixed Acidity distribution
 st.subheader("Levels of Fixed Acidity in Red Variants of Vinho Verde")
@@ -143,6 +147,17 @@ alt.Chart(wine_dataset, title="Levels of Alcohol in Red Variants of Vinho Verde"
     y = alt.Y('count()', title="Number of Samples"),
     tooltip=['count()','alcohol']
 ).interactive()
+
+
+# Compute correlation
+corr = df.corr()
+
+# Create heatmap
+fig, ax = plt.subplots(figsize=(8,6))
+sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
+
+# Display in Streamlit
+st.pyplot(fig)
 
 """For this attribute, Most of the wine samples, in that 9 to 11 level range. It's also skewed to the left. There are outliers, around the 8th level and from the 14th level onwards.
 
