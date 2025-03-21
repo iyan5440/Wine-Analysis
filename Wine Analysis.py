@@ -212,7 +212,7 @@ y
 
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
 
-"""--------------------------------------------------------------------------
+"""
 
 # References
 
@@ -237,3 +237,4 @@ https://www.geeksforgeeks.org/data-preprocessing-in-data-mining/
 https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html
 
 https://www.geeksforgeeks.org/how-to-split-the-dataset-with-scikit-learns-train_test_split-function/
+"""
