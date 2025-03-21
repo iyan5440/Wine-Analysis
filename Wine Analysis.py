@@ -161,7 +161,6 @@ st.pyplot(fig)
 
 """For this attribute, Most of the wine samples, in that 9 to 11 level range. It's also skewed to the left. There are outliers, around the 8th level and from the 14th level onwards.
 
-4. **Class Distribution Analysis**: Investigate the distribution of class labels within the dataset. Employ bar plots to visualize the frequency of instances for each class, and assess whether the dataset is balanced or imbalanced.
 """
 
 alt.Chart(wine_dataset, title="Levels of Quality in Red Variants of Vinho Verde").mark_bar(
@@ -173,12 +172,6 @@ alt.Chart(wine_dataset, title="Levels of Quality in Red Variants of Vinho Verde"
 ).interactive()
 
 """The data is relatively balanced. Most of the samples are in that 5-6 rank for quality, where most of them overall are in the 5th rank. Although, there there are more samples on the right side of quality when compared to the left side, there ar enone that are of rank 1,2,9 or 10.
-
-5. **Preprocessing**:
-
-    5.1 For numerical features, determine the best transformation to use. Indicate e transformation that seems appropriate and why. Include the code illustrating how  apply the transformation. For at least one attribute, show the distribution before d after the transformation. See [Preprocessing data](https://scikit-learn.org/able/modules/preprocessing.html).
-
-    5.2 For categorical features, show how to apply [one-hot encoding](https://ikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html).  your dataset does not have categorical data, show how to apply the one-hot encoder  the label (target variable).
 
 I think standardizing my data is good choice for preprocessing. Even though my data is pretty clean, the different attributes are along different scales. This is important because it can affect any modelling algorithms, as they are sensitive to different scales of magnitude.
 """
