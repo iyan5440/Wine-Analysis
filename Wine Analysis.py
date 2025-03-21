@@ -150,7 +150,7 @@ alt.Chart(wine_dataset, title="Levels of Alcohol in Red Variants of Vinho Verde"
 
 
 # Compute correlation
-corr = df.corr()
+corr = wine_df.corr()
 
 # Create heatmap
 fig, ax = plt.subplots(figsize=(8,6))
