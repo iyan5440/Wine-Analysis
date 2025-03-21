@@ -37,12 +37,17 @@ The dataset I plan to analyze further is the Wine Quality dataset. I don’t hav
 
 According to the original data source (Kaggle), this dataset focuses on determining wine quality, specifically for various Portuguese red wines under the "Vinho Verde" label. It captures chemical properties of these wines and assigns quality labels accordingly.
 
-One key aspect of winemaking is fermentation, where yeast breaks down sugars into alcohol and carbon dioxide. The amount of residual sugar left in the wine can indicate how effective the fermentation process was.
+One key aspect of winemaking is fermentation, where yeast breaks down sugars into alcohol and carbon dioxide."""
 
-Another impactful characteristic seems to be sulfur dioxide, which can influence yeast activity during fermentation. As a result, there can be a wide range of variations to the final product changing the quality. Additionally, according to UBC, some individuals may experience adverse reactions to sulfur dioxide (e.g., nausea, hives), making it a factor that could contribute to wine quality variability.
-"""
+# Compute correlation
+corr = wine_dataset.corr()
 
+# Create heatmap
+fig, ax = plt.subplots(figsize=(8,6))
+sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
 
+# Display in Streamlit
+st.pyplot(fig)
 
 # Fixed Acidity distribution
 st.subheader("Levels of Fixed Acidity in Red Variants of Vinho Verde")
@@ -94,106 +99,119 @@ st.altair_chart(
 
 """For this attribute, Most of the wine samples, in that 0.9 to 6.0 level range, specifically within that 1 to 0.4 range. It's skewed slightly to the left. Any samples from around 7 onwards seem like outliers."""
 
-alt.Chart(wine_dataset, title="Levels of Chlorides in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('chlorides', title="Chlorides"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','chlorides']
-).interactive()
+st.subheader("Levels of Chlorides in Red Variants of Vinho Verde")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Levels of Residual Sugar in Red Variants of Vinho Verde")
+    .mark_bar()
+    .encode(
+        x = alt.X('chlorides', title="Chlorides"),
+        y = alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()','chlorides']
+    ).interactive()
+)
 
 """For this attribute, Most of the wine samples, in that 0.03 to 0.14 level range. It's skewed slightly to the left. Any samples from around .3 onwards seem like outliers."""
 
-alt.Chart(wine_dataset, title="Levels of Free Sulfur Dioxide in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('free sulfur dioxide', title="Free Sulfur Dioxide"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','free sulfur dioxide']
-).interactive()
+# Free Sulfur Dioxide
+title = "Levels of Free Sulfur Dioxide in Red Variants of Vinho Verde"
+st.subheader(title)
+st.altair_chart(
+    alt.Chart(wine_dataset, title=title).mark_bar().encode(
+        x=alt.X('free sulfur dioxide', title="Free Sulfur Dioxide"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'free sulfur dioxide']
+    ).interactive()
+)
+st.write("Most wine samples are in the 3-23 range, skewed left. Samples above 60 are likely outliers.")
 
-"""For this attribute, Most of the wine samples, in that 3 to 23 level range. It's skewed to the left. Any samples from around 60 onwards seem like outliers."""
+# Total Sulfur Dioxide
+st.subheader("Levels of Total Sulfur Dioxide")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Total Sulfur Dioxide").mark_bar().encode(
+        x=alt.X('total sulfur dioxide', title="Total Sulfur Dioxide"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'total sulfur dioxide']
+    ).interactive()
+)
+st.write("Most samples are in the 5-51 range, skewed left. Samples above 160 seem like outliers.")
 
-alt.Chart(wine_dataset, title="Levels of Total Sulfur Dioxide in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('total sulfur dioxide', title="Total Sulfur Dioxide"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','total sulfur dioxide']
-).interactive()
+# Density
+st.subheader("Levels of Density")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Density").mark_bar().encode(
+        x=alt.X('density', title="Density"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'density']
+    ).interactive()
+)
+st.write("Standard-like distribution, no strong skew, main range: 0.994 - 1.001, no apparent outliers.")
 
-"""For this attribute, Most of the wine samples, in that 5 to 51 level range. It's skewed to the left. Any samples from around 160 onwards seem like outliers."""
+# pH
+st.subheader("Levels of pH")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="pH").mark_bar().encode(
+        x=alt.X('pH', title="pH"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'pH']
+    ).interactive()
+)
+st.write("Standard-like distribution, main range: 3.0 - 3.5. Outliers near 2.7 and above 3.9.")
 
-alt.Chart(wine_dataset, title="Levels of Density in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('density', title="Density"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','density']
-).interactive()
+# Sulphates
+st.subheader("Levels of Sulphates")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Sulphates").mark_bar().encode(
+        x=alt.X('sulphates', title="Sulphates"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'sulphates']
+    ).interactive()
+)
+st.write("Most samples range from 0.4 to 1.0, skewed left. Outliers appear above 1.5.")
 
-"""This attribute has a standard like distribution to it. There's not much of a skew like some of the other ones, and most of the samples, tend to be in that 0.994 - 1.001 range. Also, it doesn't seem like there's any real outliers here."""
+# Alcohol
+st.subheader("Levels of Alcohol")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Alcohol").mark_bar().encode(
+        x=alt.X('alcohol', title="Alcohol"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'alcohol']
+    ).interactive()
+)
+st.write("Most samples range from 9 to 11, skewed left. Outliers near 8 and above 14.")
 
-alt.Chart(wine_dataset, title="Levels of pH in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('pH', title="pH"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','pH']
-).interactive()
+# Quality Distribution
+st.subheader("Levels of Quality")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Quality").mark_bar(width=30).encode(
+        x=alt.X('quality', title="Quality", scale=alt.Scale(domain=[2, 9])),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'quality']
+    ).interactive()
+)
+st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right side has slightly more samples.")
 
-"""This attribute has a standard like distribution to it. There's not much of a skew like some of the other ones, and most of the samples, tend to be in that 3 - 3.5 range. However, there seem to be outliers around the 2.7 range and from 3.9 onwards."""
-
-alt.Chart(wine_dataset, title="Levels of Sulphates in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('sulphates', title="Sulphates"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','sulphates']
-).interactive()
-
-"""For this attribute, Most of the wine samples, in that 0.4 to 1.0 level range. It's also skewed to the left. Any samples from around 1.5 onwards seem like outliers."""
-
-alt.Chart(wine_dataset, title="Levels of Alcohol in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('alcohol', title="Alcohol"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','alcohol']
-).interactive()
-
-
-# Compute correlation
-corr = wine_dataset.corr()
-
-# Create heatmap
-fig, ax = plt.subplots(figsize=(8,6))
-sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
-
-# Display in Streamlit
-st.pyplot(fig)
-
-"""For this attribute, Most of the wine samples, in that 9 to 11 level range. It's also skewed to the left. There are outliers, around the 8th level and from the 14th level onwards.
-
-"""
-
-alt.Chart(wine_dataset, title="Levels of Quality in Red Variants of Vinho Verde").mark_bar(
-    width=30
-).encode(
-    x = alt.X('quality', title="Quality", scale=alt.Scale(domain=[2, 9])),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','quality']
-).interactive()
-
-"""The data is relatively balanced. Most of the samples are in that 5-6 rank for quality, where most of them overall are in the 5th rank. Although, there there are more samples on the right side of quality when compared to the left side, there ar enone that are of rank 1,2,9 or 10.
-
-I think standardizing my data is good choice for preprocessing. Even though my data is pretty clean, the different attributes are along different scales. This is important because it can affect any modelling algorithms, as they are sensitive to different scales of magnitude.
-"""
-
-# Before
-alt.Chart(wine_dataset, title="Levels of Residual Sugar in Red Variants of Vinho Verde (Before Standardization)").mark_bar().encode(
-    x = alt.X('residual sugar', title="Residual Sugar"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','residual sugar']
-).interactive()
-
+# Standardization
 scaler = StandardScaler()
 scaled_wine_dataset = scaler.fit_transform(wine_dataset)
 scaled_wine_df = pd.DataFrame(scaled_wine_dataset, columns=wine_dataset.columns)
 
-# After
+st.subheader("Residual Sugar - Before Standardization")
+st.altair_chart(
+    alt.Chart(wine_dataset, title="Before Standardization").mark_bar().encode(
+        x=alt.X('residual sugar', title="Residual Sugar"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'residual sugar']
+    ).interactive()
+)
 
-alt.Chart(scaled_wine_df, title="Standardized Levels of Residual Sugar in Red Variants of Vinho Verde").mark_bar().encode(
-    x = alt.X('residual sugar', title="Residual Sugar"),
-    y = alt.Y('count()', title="Number of Samples"),
-    tooltip=['count()','residual sugar']
-).interactive()
+st.subheader("Residual Sugar - After Standardization")
+st.altair_chart(
+    alt.Chart(scaled_wine_df, title="After Standardization").mark_bar().encode(
+        x=alt.X('residual sugar', title="Residual Sugar"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'residual sugar']
+    ).interactive()
+)
 
 wine_dataset = scaled_wine_df.copy()
 
