@@ -150,7 +150,7 @@ alt.Chart(wine_dataset, title="Levels of Alcohol in Red Variants of Vinho Verde"
 
 
 # Compute correlation
-corr = wine_df.corr()
+corr = wine_dataset.corr()
 
 # Create heatmap
 fig, ax = plt.subplots(figsize=(8,6))
@@ -202,12 +202,12 @@ alt.Chart(scaled_wine_df, title="Standardized Levels of Residual Sugar in Red Va
     tooltip=['count()','residual sugar']
 ).interactive()
 
-wine_df = scaled_wine_df.copy()
+wine_dataset = scaled_wine_df.copy()
 
-X = wine_df.drop(columns=['quality'],axis=1)
+X = wine_dataset.drop(columns=['quality'],axis=1)
 st.dataframe(X.head())
 
-y = wine_df['quality']
+y = wine_dataset['quality']
 y
 
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
