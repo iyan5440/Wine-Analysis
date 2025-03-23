@@ -37,7 +37,7 @@ The dataset I plan to analyze further is the Wine Quality dataset. I don’t hav
 
 According to the original data source (Kaggle), this dataset focuses on determining wine quality, specifically for various Portuguese red wines under the "Vinho Verde" label. It captures chemical properties of these wines and assigns quality labels accordingly.
 
-One key aspect of winemaking is fermentation, where yeast breaks down sugars into alcohol and carbon dioxide."""
+In order to get a feel for some of the relationships in this data, I have created a correlation heatmap."""
 
 # Compute correlation
 corr = wine_dataset.corr()
@@ -48,6 +48,11 @@ sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
 
 # Display in Streamlit
 st.pyplot(fig)
+
+"""
+Now, there are a lot of different correlations to be seen here. However, the ones that I'm going to focus on, are the correlations each characteristic has to quality. The characteristics that have the highest positive
+correlation seems to be alcohol (c=48%), sulphates (c=26%), and citric acid (c=24%).
+"""
 
 # Fixed Acidity distribution
 st.subheader("Levels of Fixed Acidity in Red Variants of Vinho Verde")
