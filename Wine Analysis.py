@@ -10,9 +10,11 @@ import pandas as pd
 import altair as alt
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 import streamlit as st
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_absolute_error, r2_score
 
 st.title("Wine Analysis")
 # https://www.kaggle.com/datasets/yasserh/wine-quality-dataset
@@ -37,22 +39,9 @@ The dataset I plan to analyze further is the Wine Quality dataset. I don’t hav
 
 According to the original data source (Kaggle), this dataset focuses on determining wine quality, specifically for various Portuguese red wines under the "Vinho Verde" label. It captures chemical properties of these wines and assigns quality labels accordingly.
 
-In order to get a feel for some of the relationships in this data, I have created a correlation heatmap."""
-
-# Compute correlation
-corr = wine_dataset.corr()
-
-# Create heatmap
-fig, ax = plt.subplots(figsize=(8,6))
-sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
-
-# Display in Streamlit
-st.pyplot(fig)
-
 """
-Now, there are a lot of different correlations to be seen here. However, the ones that I'm going to focus on, are the correlations each characteristic has to quality. The characteristics that have the highest positive
-correlation seems to be alcohol (c=48%), sulphates (c=26%), and citric acid (c=24%).
-"""
+
+st.header("Exploratory Data Analysis")
 
 # Fixed Acidity distribution
 st.subheader("Levels of Fixed Acidity in Red Variants of Vinho Verde")
@@ -195,6 +184,8 @@ st.altair_chart(
 )
 st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right side has slightly more samples.")
 
+st.header("Data Pre-Processing")
+
 # Standardization
 scaler = StandardScaler()
 scaled_wine_dataset = scaler.fit_transform(wine_dataset)
@@ -226,7 +217,25 @@ st.dataframe(X.head())
 y = wine_dataset['quality']
 y
 
+# Modelling
+
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
+
+model = LinearRegression()
+
+model.fit(X_train,y_train)
+
+
+y_pred = model.predict(X_test)
+
+mae = mean_absolute_error(y_true, y_pred)
+r2 = r2_score(y_true, y_pred)
+
+print("Mean Absoute Error: ", mae)
+print("R2 Score: ", r2)
+
+
+
 
 """
 
