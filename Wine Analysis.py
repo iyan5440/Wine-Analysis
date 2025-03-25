@@ -228,8 +228,8 @@ model.fit(X_train,y_train)
 
 y_pred = model.predict(X_test)
 
-mae = mean_absolute_error(y_true, y_pred)
-r2 = r2_score(y_true, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
 
 st.write("Mean Absoute Error: ", mae)
 st.write("R2 Score: ", r2)
@@ -241,7 +241,7 @@ st.write("R2 Score: ", r2)
 
 # References
 
-Make sure you provide references to ALL sources used (articles, code, algorithms).
+https://www.kaggle.com/datasets/yasserh/wine-quality-dataset
 
 https://github.com/turcotte/csi4106-f24/tree/main/assignments-data/a1
 
