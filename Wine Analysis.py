@@ -195,7 +195,7 @@ scaler = StandardScaler()
 scaled_wine_dataset = scaler.fit_transform(wine_dataset)
 scaled_wine_df = pd.DataFrame(scaled_wine_dataset, columns=wine_dataset.columns)
 
-st.dataframe(X.head())
+st.dataframe(scaled_wine_df.head())
 
 st.subheader("Residual Sugar - Before Standardization")
 st.altair_chart(
