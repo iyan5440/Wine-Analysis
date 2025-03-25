@@ -218,10 +218,7 @@ st.altair_chart(
 wine_dataset = scaled_wine_df.copy()
 
 X = wine_dataset.drop(columns=['quality'],axis=1)
-
-
 y = wine_dataset['quality']
-y
 
 st.header("Modelling & Results")
 
@@ -230,7 +227,7 @@ st.header("Modelling & Results")
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
 
 """
-### Linear Regression Modelling Results
+### Linear Regression Results
 """
 
 model = LinearRegression()
