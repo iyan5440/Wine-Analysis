@@ -186,10 +186,16 @@ st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right
 
 st.header("Data Pre-Processing")
 
+"""
+### Preview of Dataset After Standardization
+"""
+
 # Standardization
 scaler = StandardScaler()
 scaled_wine_dataset = scaler.fit_transform(wine_dataset)
 scaled_wine_df = pd.DataFrame(scaled_wine_dataset, columns=wine_dataset.columns)
+
+st.dataframe(X.head())
 
 st.subheader("Residual Sugar - Before Standardization")
 st.altair_chart(
@@ -212,14 +218,20 @@ st.altair_chart(
 wine_dataset = scaled_wine_df.copy()
 
 X = wine_dataset.drop(columns=['quality'],axis=1)
-st.dataframe(X.head())
+
 
 y = wine_dataset['quality']
 y
 
+st.header("Modelling & Results")
+
 # Modelling
 
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
+
+"""
+### Linear Regression Modelling Results
+"""
 
 model = LinearRegression()
 
@@ -233,6 +245,8 @@ r2 = r2_score(y_test, y_pred)
 
 st.write("Mean Absoute Error: ", mae)
 st.write("R2 Score: ", r2)
+
+
 
 
 
