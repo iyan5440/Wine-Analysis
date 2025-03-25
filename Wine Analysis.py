@@ -231,8 +231,8 @@ y_pred = model.predict(X_test)
 mae = mean_absolute_error(y_true, y_pred)
 r2 = r2_score(y_true, y_pred)
 
-print("Mean Absoute Error: ", mae)
-print("R2 Score: ", r2)
+st.write("Mean Absoute Error: ", mae)
+st.write("R2 Score: ", r2)
 
 
 
