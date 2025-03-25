@@ -25,12 +25,6 @@ wine_dataset = pd.read_csv(wine_url)
 
 wine_dataset = wine_dataset.drop(columns=["Id"])
 
-st.header("Preview of Dataset")
-
-st.dataframe(wine_dataset.head())
-
-
-
 """
 ### Background on my Dataset
 
@@ -39,7 +33,10 @@ The dataset I plan to analyze further is the Wine Quality dataset. I don’t hav
 
 According to the original data source (Kaggle), this dataset focuses on determining wine quality, specifically for various Portuguese red wines under the "Vinho Verde" label. It captures chemical properties of these wines and assigns quality labels accordingly.
 
+### Preview of Dataset
 """
+
+st.dataframe(wine_dataset.head())
 
 st.header("Exploratory Data Analysis")
 
