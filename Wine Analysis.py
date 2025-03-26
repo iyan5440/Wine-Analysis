@@ -288,10 +288,11 @@ results_long = results.melt(id_vars="Model", value_vars=["MAE", "R2 Score"],
 
 # Create the Altair bar chart
 chart = alt.Chart(results_long).mark_bar().encode(
-    x=alt.X('Model:N', title='Model'),
+    x=alt.X('Metric:N', title='Metrics'),
     y=alt.Y('Score:Q', title='Score'),
-    color='Metric:N',
-    column='Metric:N'
+    color='Model:N',
+    column='Model:N',
+    tooltip=['Model','Score']
 ).properties(
     title='Model Performance Comparison',
     width=200,
