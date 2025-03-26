@@ -281,19 +281,27 @@ results = pd.DataFrame({
     "R2 Score": [r2, r2_opt]  # Replace with actual R2 values
 })
 
-# Transform data for Altair to plot
-results_long = results.melt(id_vars="Model", value_vars=["MAE", "R2 Score"], 
-                            var_name="Metric", value_name="Score")
+# Reshape the data for long format
+results_long = results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
-# Create the Altair bar chart
-chart = alt.Chart(results_long).mark_bar().encode(
-    x=alt.X('Metric:N', title='Metrics', axis=alt.Axis(labelAngle=0)),
-    y=alt.Y('Score:Q', title='Score'),
+# Create the MAE bar chart
+chart_mae = alt.Chart(results_long[results_long['Metric'] == 'MAE']).mark_bar().encode(
+    x=alt.X('Model:N', title='Model'),
+    y=alt.Y('Score:Q', title='MAE'),
     color='Model:N',  # Different colors for the models
-    column='Metric:N',  # Create separate columns for each metric
-    tooltip=['Model', 'Metric', 'Score']  # Display model, metric, and score on hover
+    tooltip=['Model', 'Score']
 ).properties(
-    title='Model Performance Comparison',
+    title='MAE Comparison'
+)
+
+# Create the R2 Score bar chart
+chart_r2 = alt.Chart(results_long[results_long['Metric'] == 'R2 Score']).mark_bar().encode(
+    x=alt.X('Model:N', title='Model'),
+    y=alt.Y('Score:Q', title='R2 Score'),
+    color='Model:N',  # Different colors for the models
+    tooltip=['Model', 'Score']
+).properties(
+    title='R2 Score Comparison',
     width=200,
     height=300
 )
