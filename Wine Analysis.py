@@ -9,12 +9,14 @@
 import pandas as pd
 import altair as alt
 import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+import numpy as np
 import streamlit as st
-from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.metrics import accuracy_score, classification_report
+
 
 st.title("Wine Analysis")
 # https://www.kaggle.com/datasets/yasserh/wine-quality-dataset
@@ -224,23 +226,52 @@ st.header("Modelling & Results")
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
 
 """
-### Linear Regression Results
+### KNN Classification Results
 """
 
-model = LinearRegression()
+# Define KNN classifier
+model = KNeighborsClassifier()
 
 model.fit(X_train,y_train)
 
-
 y_pred = model.predict(X_test)
 
-mae = mean_absolute_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
+# Evaluate performance
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
 
-st.write("Mean Absoute Error: ", mae)
-st.write("R2 Score: ", r2)
+st.write(f"Accuracy: {accuracy:.4f}")
+st.write("Classification Report:\n", report)
 
+"""
+### Optimized KNN Classification Results
+"""
 
+# Define hyperparameter grid (searching for best k)
+param_grid = {
+    'n_neighbors': [3, 5, 7, 9, 11],
+    'weights': ['uniform', 'distance'],
+    'metric': ['euclidean', 'manhattan']
+}
+
+# Perform GridSearchCV with 5-fold cross-validation
+grid_search = GridSearchCV(model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+grid_search.fit(X_train, y_train)
+
+# Get the best parameters and model
+best_params = grid_search.best_params_
+best_model = grid_search.best_estimator_
+
+# Predict using the best model
+y_pred = best_model.predict(X_test)
+
+# Evaluate performance
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+
+print(f"Best Hyperparameters: {best_params}")
+print(f"Accuracy: {accuracy:.4f}")
+print("Classification Report:\n", report)
 
 
 
