@@ -225,6 +225,8 @@ st.header("Modelling & Results")
 
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
 
+import seaborn as sns
+
 """
 ### KNN Classification Results
 """
@@ -266,16 +268,58 @@ best_model = grid_search.best_estimator_
 y_pred = best_model.predict(X_test)
 
 # Evaluate performance
-mae = mean_absolute_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
+mae_opt = mean_absolute_error(y_test, y_pred)
+r2_opt = r2_score(y_test, y_pred)
 
 
 
 st.write(f"Best Hyperparameters: {best_params}")
-st.write(f"Mean Absolute Error Score: {mae:.4f}")
-st.write(f"R2 Score: {r2:.4f}")
+st.write(f"Mean Absolute Error Score: {mae_opt:.4f}")
+st.write(f"R2 Score: {r2_opt:.4f}")
 
+# Calculate residuals for both models
+residuals_regular = y_test - y_pred_regular
+residuals_optimized = y_test - y_pred_optimized
 
+# Streamlit app layout
+st.title("Model Evaluation and Comparison: Regular vs Optimized KNN")
+
+# Residual Distribution Plot for Regular and Optimized KNN
+st.subheader("Residual Distribution")
+fig_residuals = plt.figure(figsize=(8,5))
+sns.histplot(residuals_regular, bins=30, kde=True, label="Regular KNN", color="blue")
+sns.histplot(residuals_optimized, bins=30, kde=True, label="Optimized KNN", color="green")
+plt.axvline(0, color='red', linestyle='--')
+plt.title("Residual Distribution")
+plt.xlabel("Residuals")
+plt.ylabel("Density")
+plt.legend()
+st.pyplot(fig_residuals)
+
+# Actual vs Predicted Plot for Regular and Optimized KNN
+st.subheader("Actual vs. Predicted")
+fig_actual_predicted = plt.figure(figsize=(7,5))
+plt.scatter(y_test, y_pred_regular, alpha=0.5, label="Regular KNN", color="blue")
+plt.scatter(y_test, y_pred_optimized, alpha=0.5, label="Optimized KNN", color="green")
+plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color="red", linestyle="--")  # Perfect fit line
+plt.xlabel("Actual Values")
+plt.ylabel("Predicted Values")
+plt.title("Actual vs. Predicted")
+plt.legend()
+st.pyplot(fig_actual_predicted)
+
+st.subheader("Model Performance Comparison")
+results = pd.DataFrame({
+    "Model": ["Regular KNN", "Optimized KNN"],
+    "MAE": [0.6560, 0.6470],  # Replace with actual MAE values
+    "R2 Score": [0.2655, 0.2274]  # Replace with actual R2 values
+})
+
+fig_comparison = results.plot(x="Model", y=["MAE", "R2 Score"], kind="bar", figsize=(8,5))
+plt.title("Model Performance Comparison")
+plt.ylabel("Score")
+plt.legend(["MAE (Lower is Better)", "R2 Score (Higher is Better)"])
+st.pyplot(fig_comparison)
 
 
 """
