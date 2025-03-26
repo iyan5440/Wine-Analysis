@@ -257,7 +257,7 @@ param_grid = {
 }
 
 # Perform GridSearchCV with 5-fold cross-validation
-grid_search = GridSearchCV(model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+grid_search = GridSearchCV(model, param_grid, cv=5, scoring='neg_mean_absolute_error', n_jobs=-1)
 grid_search.fit(X_train, y_train)
 
 # Get the best parameters and model
@@ -265,11 +265,11 @@ best_params = grid_search.best_params_
 best_model = grid_search.best_estimator_
 
 # Predict using the best model
-y_pred = best_model.predict(X_test)
+y_pred_opt = best_model.predict(X_test)
 
 # Evaluate performance
-mae_opt = mean_absolute_error(y_test, y_pred)
-r2_opt = r2_score(y_test, y_pred)
+mae_opt = mean_absolute_error(y_test, y_pred_opt)
+r2_opt = r2_score(y_test, y_pred_opt)
 
 
 
