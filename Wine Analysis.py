@@ -278,8 +278,8 @@ st.write(f"Mean Absolute Error Score: {mae_opt:.4f}")
 st.write(f"R2 Score: {r2_opt:.4f}")
 
 # Calculate residuals for both models
-residuals_regular = y_test - y_pred_regular
-residuals_optimized = y_test - y_pred_optimized
+residuals = y_test - y_pred
+residuals_opt = y_test - y_pred_opt
 
 # Streamlit app layout
 st.title("Model Evaluation and Comparison: Regular vs Optimized KNN")
@@ -287,8 +287,8 @@ st.title("Model Evaluation and Comparison: Regular vs Optimized KNN")
 # Residual Distribution Plot for Regular and Optimized KNN
 st.subheader("Residual Distribution")
 fig_residuals = plt.figure(figsize=(8,5))
-sns.histplot(residuals_regular, bins=30, kde=True, label="Regular KNN", color="blue")
-sns.histplot(residuals_optimized, bins=30, kde=True, label="Optimized KNN", color="green")
+sns.histplot(residuals, bins=30, kde=True, label="Regular KNN", color="blue")
+sns.histplot(residuals_opt, bins=30, kde=True, label="Optimized KNN", color="green")
 plt.axvline(0, color='red', linestyle='--')
 plt.title("Residual Distribution")
 plt.xlabel("Residuals")
@@ -299,8 +299,8 @@ st.pyplot(fig_residuals)
 # Actual vs Predicted Plot for Regular and Optimized KNN
 st.subheader("Actual vs. Predicted")
 fig_actual_predicted = plt.figure(figsize=(7,5))
-plt.scatter(y_test, y_pred_regular, alpha=0.5, label="Regular KNN", color="blue")
-plt.scatter(y_test, y_pred_optimized, alpha=0.5, label="Optimized KNN", color="green")
+plt.scatter(y_test, y_pred, alpha=0.5, label="Regular KNN", color="blue")
+plt.scatter(y_test, y_pred_opt, alpha=0.5, label="Optimized KNN", color="green")
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color="red", linestyle="--")  # Perfect fit line
 plt.xlabel("Actual Values")
 plt.ylabel("Predicted Values")
@@ -311,8 +311,8 @@ st.pyplot(fig_actual_predicted)
 st.subheader("Model Performance Comparison")
 results = pd.DataFrame({
     "Model": ["Regular KNN", "Optimized KNN"],
-    "MAE": [0.6560, 0.6470],  # Replace with actual MAE values
-    "R2 Score": [0.2655, 0.2274]  # Replace with actual R2 values
+    "MAE": [mae, mae_opt],  # Replace with actual MAE values
+    "R2 Score": [opt, r2_opt]  # Replace with actual R2 values
 })
 
 fig_comparison = results.plot(x="Model", y=["MAE", "R2 Score"], kind="bar", figsize=(8,5))
