@@ -307,7 +307,8 @@ chart_r2 = alt.Chart(results_long[results_long['Metric'] == 'R2 Score']).mark_ba
 )
 
 # Display the chart in Streamlit
-st.altair_chart(chart, use_container_width=True)
+st.altair_chart(chart_mae, use_container_width=True)
+st.altair_chart(chart_r2, use_container_width=True)
 
 
 """
