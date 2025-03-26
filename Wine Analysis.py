@@ -275,37 +275,6 @@ st.write(f"Best Hyperparameters: {best_params}")
 st.write(f"Mean Absolute Error Score: {mae_opt:.4f}")
 st.write(f"R2 Score: {r2_opt:.4f}")
 
-# Calculate residuals for both models
-residuals = y_test - y_pred
-residuals_opt = y_test - y_pred_opt
-
-# Streamlit app layout
-st.title("Model Evaluation and Comparison: Regular vs Optimized KNN")
-
-# Residual Distribution Plot for Regular and Optimized KNN
-st.subheader("Residual Distribution")
-fig_residuals = plt.figure(figsize=(8,5))
-sns.histplot(residuals, bins=30, kde=True, label="Regular KNN", color="blue")
-sns.histplot(residuals_opt, bins=30, kde=True, label="Optimized KNN", color="green")
-plt.axvline(0, color='red', linestyle='--')
-plt.title("Residual Distribution")
-plt.xlabel("Residuals")
-plt.ylabel("Density")
-plt.legend()
-st.pyplot(fig_residuals)
-
-# Actual vs Predicted Plot for Regular and Optimized KNN
-st.subheader("Actual vs. Predicted")
-fig_actual_predicted = plt.figure(figsize=(7,5))
-plt.scatter(y_test, y_pred, alpha=0.5, label="Regular KNN", color="blue")
-plt.scatter(y_test, y_pred_opt, alpha=0.5, label="Optimized KNN", color="green")
-plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color="red", linestyle="--")  # Perfect fit line
-plt.xlabel("Actual Values")
-plt.ylabel("Predicted Values")
-plt.title("Actual vs. Predicted")
-plt.legend()
-st.pyplot(fig_actual_predicted)
-
 st.subheader("Model Performance Comparison")
 results = pd.DataFrame({
     "Model": ["Regular KNN", "Optimized KNN"],
@@ -313,14 +282,25 @@ results = pd.DataFrame({
     "R2 Score": [r2, r2_opt]  # Replace with actual R2 values
 })
 
-fig_comparison = plt.figure(figsize=(8,5))  # Create a figure object
-results.plot(x="Model", y=["MAE", "R2 Score"], kind="bar", ax=fig_comparison.gca())  # Use the axes of the figure
-plt.title("Model Performance Comparison")
-plt.ylabel("Score")
-plt.legend(["MAE (Lower is Better)", "R2 Score (Higher is Better)"])
+# Transform data for Altair to plot
+results_long = results.melt(id_vars="Model", value_vars=["MAE", "R2 Score"], 
+                            var_name="Metric", value_name="Score")
 
-# Pass the figure object to st.pyplot()
-st.pyplot(fig_comparison)
+# Create the Altair bar chart
+chart = alt.Chart(results_long).mark_bar().encode(
+    x=alt.X('Model:N', title='Model'),
+    y=alt.Y('Score:Q', title='Score'),
+    color='Metric:N',
+    column='Metric:N'
+).properties(
+    title='Model Performance Comparison',
+    width=200,
+    height=300
+)
+
+# Display the chart in Streamlit
+st.subheader("Model Performance Comparison")
+st.altair_chart(chart, use_container_width=True)
 
 
 """
