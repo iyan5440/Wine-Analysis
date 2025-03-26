@@ -225,8 +225,6 @@ st.header("Modelling & Results")
 
 X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_size=0.20, shuffle=True)
 
-import seaborn as sns
-
 """
 ### KNN Classification Results
 """
@@ -315,10 +313,13 @@ results = pd.DataFrame({
     "R2 Score": [r2, r2_opt]  # Replace with actual R2 values
 })
 
-fig_comparison = results.plot(x="Model", y=["MAE", "R2 Score"], kind="bar", figsize=(8,5))
+fig_comparison = plt.figure(figsize=(8,5))  # Create a figure object
+results.plot(x="Model", y=["MAE", "R2 Score"], kind="bar", ax=fig_comparison.gca())  # Use the axes of the figure
 plt.title("Model Performance Comparison")
 plt.ylabel("Score")
 plt.legend(["MAE (Lower is Better)", "R2 Score (Higher is Better)"])
+
+# Pass the figure object to st.pyplot()
 st.pyplot(fig_comparison)
 
 
