@@ -275,7 +275,6 @@ st.write(f"Best Hyperparameters: {best_params}")
 st.write(f"Mean Absolute Error Score: {mae_opt:.4f}")
 st.write(f"R2 Score: {r2_opt:.4f}")
 
-st.subheader("Model Performance Comparison")
 results = pd.DataFrame({
     "Model": ["Regular KNN", "Optimized KNN"],
     "MAE": [mae, mae_opt],  # Replace with actual MAE values
@@ -288,11 +287,11 @@ results_long = results.melt(id_vars="Model", value_vars=["MAE", "R2 Score"],
 
 # Create the Altair bar chart
 chart = alt.Chart(results_long).mark_bar().encode(
-    x=alt.X('Metric:N', title='Metrics'),
+    x=alt.X('Metric:N', title='Metrics', axis=alt.Axis(labelAngle=0)),
     y=alt.Y('Score:Q', title='Score'),
-    color='Model:N',
-    column='Model:N',
-    tooltip=['Model','Score']
+    color='Model:N',  # Different colors for the models
+    column='Metric:N',  # Create separate columns for each metric
+    tooltip=['Model', 'Metric', 'Score']  # Display model, metric, and score on hover
 ).properties(
     title='Model Performance Comparison',
     width=200,
@@ -300,7 +299,6 @@ chart = alt.Chart(results_long).mark_bar().encode(
 )
 
 # Display the chart in Streamlit
-st.subheader("Model Performance Comparison")
 st.altair_chart(chart, use_container_width=True)
 
 
