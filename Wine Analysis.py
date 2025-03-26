@@ -312,7 +312,7 @@ st.subheader("Model Performance Comparison")
 results = pd.DataFrame({
     "Model": ["Regular KNN", "Optimized KNN"],
     "MAE": [mae, mae_opt],  # Replace with actual MAE values
-    "R2 Score": [opt, r2_opt]  # Replace with actual R2 values
+    "R2 Score": [r2, r2_opt]  # Replace with actual R2 values
 })
 
 fig_comparison = results.plot(x="Model", y=["MAE", "R2 Score"], kind="bar", figsize=(8,5))
