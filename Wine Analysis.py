@@ -178,13 +178,23 @@ st.altair_chart(
 )
 st.write("Most samples range from 9 to 11, skewed left. Outliers near 8 and above 14.")
 
+# Count occurrences of each quality level, filling missing categories with 0
+wine_dataset['quality'] = pd.Categorical(wine_dataset['quality'], categories=range(1, 11))
+
+# Step 2: Count occurrences of each quality level
+quality_counts = wine_dataset['quality'].value_counts().reindex(range(1, 11), fill_value=0)
+
+# Step 3: Reset index to get a DataFrame
+quality_counts_reset = quality_counts.reset_index()
+quality_counts_reset.columns = ['quality', 'count']  # Rename columns for clarity
+
 # Quality Distribution
-st.subheader("Levels of Quality")
+st.subheader("Levels of Quality in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Quality").mark_bar(width=30).encode(
-        x=alt.X('quality', title="Quality", scale=alt.Scale(domain=[2, 9])),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'quality']
+    alt.Chart(quality_counts_reset).mark_bar().encode(
+        x=alt.X('quality:O', title="Quality"),  # Quality on the x-axis
+        y=alt.Y('count:Q', title="Number of Samples"),  # Count on the y-axis
+        tooltip=['quality', 'count']  # Show quality level and count on hover
     ).interactive()
 )
 st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right side has slightly more samples.")
