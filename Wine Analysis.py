@@ -13,9 +13,9 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import KNeighborsRegressor
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.metrics import accuracy_score, f1_score, classification_report
 
 
 st.title("Wine Analysis")
@@ -54,6 +54,8 @@ st.altair_chart(
     ).interactive()
 )
 
+"""It seems like in terms of fixed acidity, Most of the wine samples, in that 6 to 10 level range. The data is skewed slightly to the left. Also the outliers from the 14th level onwards."""
+
 # Volatile Acidity distribution
 st.subheader("Levels of Volatile Acidity in Red Variants of Vinho Verde")
 st.altair_chart(
@@ -66,6 +68,8 @@ st.altair_chart(
     ).interactive()
 )
 
+"""For this attribute, Most of the wine samples, in that 0.1 to 1.0 level range, specifically within that 0.4 to 0.7 range. Any samples from around 1.2 onwards seem like outliers."""
+
 # Citric Acid distribution
 st.subheader("Levels of Citric Acid in Red Variants of Vinho Verde")
 st.altair_chart(
@@ -77,6 +81,8 @@ st.altair_chart(
         tooltip=['count()','citric acid']
     ).interactive()
 )
+
+"""This attribute is interesting, because it doesn't follow a standard-like distribution in terms of its central tendency. There are three to four levels (0,0.2, 0.24, 0.49) that are the most common levels, and then the rest gravitate around those. It seems like there is an outlier over by the 1.0 level, though its difficult to tell if the any others are really an outlier here."""
 
 # Residual Sugar distribution
 st.subheader("Levels of Residual Sugar in Red Variants of Vinho Verde")
@@ -94,7 +100,7 @@ st.altair_chart(
 
 st.subheader("Levels of Chlorides in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Levels of Residual Sugar in Red Variants of Vinho Verde")
+    alt.Chart(wine_dataset, title="Levels of Chlorides in Red Variants of Vinho Verde")
     .mark_bar()
     .encode(
         x = alt.X('chlorides', title="Chlorides"),
@@ -189,16 +195,24 @@ st.header("Data Pre-Processing")
 ### Preview of Dataset After Standardization
 """
 
+wine_df = wine_dataset.copy()
+
+X = wine_df.drop(columns=['quality'],axis=1)
+#X.head()
+
+y = wine_df['quality']
+#y
+
 # Standardization
 scaler = StandardScaler()
-scaled_wine_dataset = scaler.fit_transform(wine_dataset)
-scaled_wine_df = pd.DataFrame(scaled_wine_dataset, columns=wine_dataset.columns)
+X_scaled = scaler.fit_transform(X)
+X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
 
 st.dataframe(scaled_wine_df.head())
 
 st.subheader("Residual Sugar - Before Standardization")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Before Standardization").mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('residual sugar', title="Residual Sugar"),
         y=alt.Y('count()', title="Number of Samples"),
         tooltip=['count()', 'residual sugar']
@@ -207,17 +221,14 @@ st.altair_chart(
 
 st.subheader("Residual Sugar - After Standardization")
 st.altair_chart(
-    alt.Chart(scaled_wine_df, title="After Standardization").mark_bar().encode(
-        x=alt.X('residual sugar', title="Residual Sugar"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'residual sugar']
+    alt.Chart(X_scaled_df).mark_bar().encode(
+        x = alt.X('residual sugar', title="Residual Sugar"),
+        y = alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()','residual sugar']
     ).interactive()
 )
 
-wine_dataset = scaled_wine_df.copy()
-
-X = wine_dataset.drop(columns=['quality'],axis=1)
-y = wine_dataset['quality']
+X = X_scaled_df.copy()
 
 st.header("Modelling & Results")
 
@@ -229,19 +240,20 @@ X_train, X_test, y_train, y_test = train_test_split(X,y , random_state=104,test_
 ### KNN Classification Results
 """
 
-# Define KNN classifier
-model = KNeighborsRegressor(n_neighbors=5)
-
-model.fit(X_train,y_train)
-
+# KNN Classifier (Regular)
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
-# Evaluate performance
-mae = mean_absolute_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
+# Regular KNN Evaluation
+accuracy = accuracy_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred, average='weighted')  # Use weighted average for multi-class F1
+classification_rep = classification_report(y_test, y_pred, zero_division=0) #classification_report(y_test, y_pred, labels=all_classes, target_names=[str(i) for i in all_classes], zero_division=1) #
 
-st.write(f"Mean Absolute Error Score: {mae:.4f}")
-st.write(f"R2 Score: {r2:.4f}")
+st.write(f"Accuracy of Regular KNN: {accuracy:.4f}")
+st.write(f"F1 Score of Regular KNN: {f1:.4f}")
+st.write("Classification Report for Regular KNN:")
+st.write(classification_rep)
 
 """
 ### Optimized KNN Classification Results
@@ -254,61 +266,62 @@ param_grid = {
     'metric': ['euclidean', 'manhattan']
 }
 
-# Perform GridSearchCV with 5-fold cross-validation
-grid_search = GridSearchCV(model, param_grid, cv=5, scoring='neg_mean_absolute_error', n_jobs=-1)
+# Perform GridSearchCV
+grid_search = GridSearchCV(KNeighborsClassifier(), param_grid, cv=3, scoring='accuracy', n_jobs=-1)
 grid_search.fit(X_train, y_train)
 
-# Get the best parameters and model
+# Best parameters and model
 best_params = grid_search.best_params_
 best_model = grid_search.best_estimator_
 
 # Predict using the best model
 y_pred_opt = best_model.predict(X_test)
 
-# Evaluate performance
-mae_opt = mean_absolute_error(y_test, y_pred_opt)
-r2_opt = r2_score(y_test, y_pred_opt)
+# Optimized KNN Evaluation
+accuracy_opt = accuracy_score(y_test, y_pred_opt)
+f1_opt = f1_score(y_test, y_pred_opt, average='weighted')
+classification_rep_opt = classification_report(y_test, y_pred, zero_division=0) #classification_report(y_test, y_pred_opt, labels=all_classes, target_names=[str(i) for i in all_classes], zero_division=1) 
 
 
+st.write(f"Accuracy of OPT KNN: {accuracy_opt:.4f}")
+st.write(f"F1 Score of OPT KNN: {f1_opt:.4f}")
+st.write(f"Best Hyperparameters for KNN: {best_params}")
+st.write("Classification Report for OPT KNN:")
+st.write(classification_rep_opt)
 
-st.write(f"Best Hyperparameters: {best_params}")
-st.write(f"Mean Absolute Error Score: {mae_opt:.4f}")
-st.write(f"R2 Score: {r2_opt:.4f}")
-
+# Results Comparison DataFrame
 results = pd.DataFrame({
     "Model": ["Regular KNN", "Optimized KNN"],
-    "MAE": [mae, mae_opt],  # Replace with actual MAE values
-    "R2 Score": [r2, r2_opt]  # Replace with actual R2 values
+    "Accuracy": [accuracy, accuracy_opt],
+    "F1 Score": [f1, f1_opt]
 })
 
-# Reshape the data for long format
+# Reshape for long format (for charting)
 results_long = results.melt(id_vars="Model", var_name="Metric", value_name="Score")
 
-# Create the MAE bar chart
-chart_mae = alt.Chart(results_long[results_long['Metric'] == 'MAE']).mark_bar().encode(
+# Create the Accuracy comparison chart
+chart_accuracy = alt.Chart(results_long[results_long['Metric'] == 'Accuracy']).mark_bar().encode(
     x=alt.X('Model:N', title='Model'),
-    y=alt.Y('Score:Q', title='MAE'),
-    color='Model:N',  # Different colors for the models
+    y=alt.Y('Score:Q', title='Accuracy'),
+    color='Model:N',
     tooltip=['Model', 'Score']
 ).properties(
-    title='MAE Comparison'
+    title='Accuracy Comparison'
 )
 
-# Create the R2 Score bar chart
-chart_r2 = alt.Chart(results_long[results_long['Metric'] == 'R2 Score']).mark_bar().encode(
+# Create the F1 Score comparison chart
+chart_f1 = alt.Chart(results_long[results_long['Metric'] == 'F1 Score']).mark_bar().encode(
     x=alt.X('Model:N', title='Model'),
-    y=alt.Y('Score:Q', title='R2 Score'),
-    color='Model:N',  # Different colors for the models
+    y=alt.Y('Score:Q', title='F1 Score'),
+    color='Model:N',
     tooltip=['Model', 'Score']
 ).properties(
-    title='R2 Score Comparison',
-    width=200,
-    height=300
+    title='F1 Score Comparison'
 )
 
 # Display the chart in Streamlit
-st.altair_chart(chart_mae, use_container_width=True)
-st.altair_chart(chart_r2, use_container_width=True)
+st.altair_chart(chart_accuracy, use_container_width=True)
+st.altair_chart(chart_f1, use_container_width=True)
 
 
 """
