@@ -9,7 +9,6 @@
 import pandas as pd
 import altair as alt
 import streamlit as st
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
