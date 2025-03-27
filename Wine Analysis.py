@@ -192,7 +192,7 @@ quality_counts_reset.columns = ['quality', 'count']  # Rename columns for clarit
 st.subheader("Levels of Quality in Red Variants of Vinho Verde")
 st.altair_chart(
     alt.Chart(quality_counts_reset).mark_bar().encode(
-        x=alt.X('quality:O', title="Quality"),  # Quality on the x-axis
+        x=alt.X('quality:O', title="Quality", axis=alt.Axis(labelAngle=0)),  # Quality on the x-axis
         y=alt.Y('count:Q', title="Number of Samples"),  # Count on the y-axis
         tooltip=['quality', 'count']  # Show quality level and count on hover
     ).interactive()
@@ -200,6 +200,10 @@ st.altair_chart(
 st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right side has slightly more samples.")
 
 st.header("Data Pre-Processing")
+
+"""
+### Preview of Dataset Before Standardization
+"""
 
 wine_df = wine_dataset.copy()
 
@@ -209,6 +213,15 @@ X = wine_df.drop(columns=['quality'],axis=1)
 y = wine_df['quality']
 
 st.dataframe(X.head())
+
+st.subheader("Residual Sugar - Before Standardization")
+st.altair_chart(
+    alt.Chart(wine_dataset).mark_bar().encode(
+        x=alt.X('residual sugar', title="Residual Sugar"),
+        y=alt.Y('count()', title="Number of Samples"),
+        tooltip=['count()', 'residual sugar']
+    ).interactive()
+)
 
 """
 ### Preview of Dataset After Standardization
@@ -220,15 +233,6 @@ X_scaled = scaler.fit_transform(X)
 X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
 
 st.dataframe(X_scaled_df.head())
-
-st.subheader("Residual Sugar - Before Standardization")
-st.altair_chart(
-    alt.Chart(wine_dataset).mark_bar().encode(
-        x=alt.X('residual sugar', title="Residual Sugar"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'residual sugar']
-    ).interactive()
-)
 
 st.subheader("Residual Sugar - After Standardization")
 st.altair_chart(
@@ -264,7 +268,7 @@ classification_rep = classification_report(y_test, y_pred, zero_division=0) #cla
 st.write(f"Accuracy of Regular KNN: {accuracy:.4f}")
 st.write(f"F1 Score of Regular KNN: {f1:.4f}")
 st.write("Classification Report for Regular KNN:")
-st.write(classification_rep)
+st.text(classification_rep)
 
 """
 ### Optimized KNN Classification Results
@@ -291,14 +295,16 @@ y_pred_opt = best_model.predict(X_test)
 # Optimized KNN Evaluation
 accuracy_opt = accuracy_score(y_test, y_pred_opt)
 f1_opt = f1_score(y_test, y_pred_opt, average='weighted')
-classification_rep_opt = classification_report(y_test, y_pred, zero_division=0) #classification_report(y_test, y_pred_opt, labels=all_classes, target_names=[str(i) for i in all_classes], zero_division=1) 
+classification_rep_opt = classification_report(y_test, y_pred_opt, zero_division=0) #classification_report(y_test, y_pred_opt, labels=all_classes, target_names=[str(i) for i in all_classes], zero_division=1) 
 
 
 st.write(f"Accuracy of OPT KNN: {accuracy_opt:.4f}")
 st.write(f"F1 Score of OPT KNN: {f1_opt:.4f}")
 st.write(f"Best Hyperparameters for KNN: {best_params}")
-st.write("Classification Report for OPT KNN:")
-st.write(classification_rep_opt)
+#st.write("Classification Report for OPT KNN:")
+
+"""#### Classification Report for OPT KNN:"""
+st.text(classification_rep_opt)
 
 # Results Comparison DataFrame
 results = pd.DataFrame({
@@ -313,7 +319,7 @@ results_long = results.melt(id_vars="Model", var_name="Metric", value_name="Scor
 # Create the Accuracy comparison chart
 chart_accuracy = alt.Chart(results_long[results_long['Metric'] == 'Accuracy']).mark_bar().encode(
     x=alt.X('Model:N', title='Model'),
-    y=alt.Y('Score:Q', title='Accuracy'),
+    y=alt.Y('Score:Q', title='Accuracy', scale=alt.Scale(domain=[0, 1])),
     color='Model:N',
     tooltip=['Model', 'Score']
 ).properties(
@@ -323,7 +329,7 @@ chart_accuracy = alt.Chart(results_long[results_long['Metric'] == 'Accuracy']).m
 # Create the F1 Score comparison chart
 chart_f1 = alt.Chart(results_long[results_long['Metric'] == 'F1 Score']).mark_bar().encode(
     x=alt.X('Model:N', title='Model'),
-    y=alt.Y('Score:Q', title='F1 Score'),
+    y=alt.Y('Score:Q', title='F1 Score', scale=alt.Scale(domain=[0, 1])),
     color='Model:N',
     tooltip=['Model', 'Score']
 ).properties(
