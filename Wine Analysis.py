@@ -45,12 +45,15 @@ st.header("Exploratory Data Analysis")
 # Fixed Acidity distribution
 st.subheader("Levels of Fixed Acidity in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Levels of Fixed Acidity in Red Variants of Vinho Verde")
+    alt.Chart(wine_dataset)
     .mark_bar()
     .encode(
         x = alt.X('fixed acidity', title="Fixed Acidity"),
-        y = alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()','fixed acidity']
+        y = alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('fixed acidity', title='Fixed Acidity:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
@@ -59,12 +62,15 @@ st.altair_chart(
 # Volatile Acidity distribution
 st.subheader("Levels of Volatile Acidity in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Levels of Volatile Acidity in Red Variants of Vinho Verde")
+    alt.Chart(wine_dataset)
     .mark_bar()
     .encode(
         x = alt.X('volatile acidity', title="Volatile Acidity"),
-        y = alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()','volatile acidity']
+        y = alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('volatile acidity', title='Volatile Acidity:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
@@ -73,12 +79,15 @@ st.altair_chart(
 # Citric Acid distribution
 st.subheader("Levels of Citric Acid in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Levels of Citric Acid in Red Variants of Vinho Verde")
+    alt.Chart(wine_dataset)
     .mark_bar()
     .encode(
         x = alt.X('citric acid', title="Citric Acid"),
-        y = alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()','citric acid']
+        y = alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('citric acid', title='Citric Acid:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
@@ -87,12 +96,15 @@ st.altair_chart(
 # Residual Sugar distribution
 st.subheader("Levels of Residual Sugar in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Levels of Residual Sugar in Red Variants of Vinho Verde")
+    alt.Chart(wine_dataset)
     .mark_bar()
     .encode(
         x = alt.X('residual sugar', title="Residual Sugar"),
-        y = alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()','residual sugar']
+        y = alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('residual sugar', title='Residual Sugar:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
@@ -100,80 +112,100 @@ st.altair_chart(
 
 st.subheader("Levels of Chlorides in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Levels of Chlorides in Red Variants of Vinho Verde")
+    alt.Chart(wine_dataset)
     .mark_bar()
     .encode(
         x = alt.X('chlorides', title="Chlorides"),
-        y = alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()','chlorides']
+        y = alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('chlorides', title='Chlorides:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
 """For this attribute, Most of the wine samples, in that 0.03 to 0.14 level range. It's skewed slightly to the left. Any samples from around .3 onwards seem like outliers."""
 
 # Free Sulfur Dioxide
-title = "Levels of Free Sulfur Dioxide in Red Variants of Vinho Verde"
-st.subheader(title)
+st.subheader("Levels of Free Sulfur Dioxide in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title=title).mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('free sulfur dioxide', title="Free Sulfur Dioxide"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'free sulfur dioxide']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('free sulfur dioxide', title='Free Sulfur Dioxide:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Most wine samples are in the 3-23 range, skewed left. Samples above 60 are likely outliers.")
 
 # Total Sulfur Dioxide
-st.subheader("Levels of Total Sulfur Dioxide")
+st.subheader("Levels of Total Sulfur Dioxide in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Total Sulfur Dioxide").mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('total sulfur dioxide', title="Total Sulfur Dioxide"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'total sulfur dioxide']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('total sulfur dioxide', title='Total Sulfur Dioxide:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Most samples are in the 5-51 range, skewed left. Samples above 160 seem like outliers.")
 
 # Density
-st.subheader("Levels of Density")
+st.subheader("Levels of Density in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Density").mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('density', title="Density"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'density']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('density', title='Density:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Standard-like distribution, no strong skew, main range: 0.994 - 1.001, no apparent outliers.")
 
 # pH
-st.subheader("Levels of pH")
+st.subheader("Levels of pH in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="pH").mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('pH', title="pH"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'pH']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('pH', title='pH:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Standard-like distribution, main range: 3.0 - 3.5. Outliers near 2.7 and above 3.9.")
 
 # Sulphates
-st.subheader("Levels of Sulphates")
+st.subheader("Levels of Sulphates in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Sulphates").mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('sulphates', title="Sulphates"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'sulphates']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('sulphates', title='Sulphates:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Most samples range from 0.4 to 1.0, skewed left. Outliers appear above 1.5.")
 
 # Alcohol
-st.subheader("Levels of Alcohol")
+st.subheader("Levels of Alcohol in Red Variants of Vinho Verde")
 st.altair_chart(
-    alt.Chart(wine_dataset, title="Alcohol").mark_bar().encode(
+    alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('alcohol', title="Alcohol"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'alcohol']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('alcohol', title='Alcohol:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Most samples range from 9 to 11, skewed left. Outliers near 8 and above 14.")
@@ -193,8 +225,11 @@ st.subheader("Levels of Quality in Red Variants of Vinho Verde")
 st.altair_chart(
     alt.Chart(quality_counts_reset).mark_bar().encode(
         x=alt.X('quality:O', title="Quality", axis=alt.Axis(labelAngle=0)),  # Quality on the x-axis
-        y=alt.Y('count:Q', title="Number of Samples"),  # Count on the y-axis
-        tooltip=['quality', 'count']  # Show quality level and count on hover
+        y=alt.Y('count:Q', title="Number of Records"),  # Count on the y-axis
+        tooltip=[
+            alt.Tooltip('quality', title='Rank:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right side has slightly more samples.")
@@ -218,8 +253,11 @@ st.subheader("Residual Sugar - Before Standardization")
 st.altair_chart(
     alt.Chart(wine_dataset).mark_bar().encode(
         x=alt.X('residual sugar', title="Residual Sugar"),
-        y=alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()', 'residual sugar']
+        y=alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('residual sugar', title='Residual Sugar:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
@@ -238,8 +276,11 @@ st.subheader("Residual Sugar - After Standardization")
 st.altair_chart(
     alt.Chart(X_scaled_df).mark_bar().encode(
         x = alt.X('residual sugar', title="Residual Sugar"),
-        y = alt.Y('count()', title="Number of Samples"),
-        tooltip=['count()','residual sugar']
+        y = alt.Y('count()', title="Number of Records"),
+        tooltip=[
+            alt.Tooltip('residual sugar', title='Residual Sugar:'),  # Format as percentage with rounding
+            alt.Tooltip('count()', title='Number of Records:')         # Round to 2 decimal places
+        ]
     ).interactive()
 )
 
@@ -319,25 +360,27 @@ results_long = results.melt(id_vars="Model", var_name="Metric", value_name="Scor
 # Create the Accuracy comparison chart
 chart_accuracy = alt.Chart(results_long[results_long['Metric'] == 'Accuracy']).mark_bar().encode(
     x=alt.X('Model:N', title='Model'),
-    y=alt.Y('Score:Q', title='Accuracy', scale=alt.Scale(domain=[0, 1])),
+    y=alt.Y('Score:Q', title='Accuracy (%)', scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format='%')),
     color='Model:N',
-    tooltip=['Model', 'Score']
+    tooltip=['Model', alt.Tooltip('Score', title='Accuracy:', format='.2%')]
 ).properties(
-    title='Accuracy Comparison'
+    height=300
 )
 
 # Create the F1 Score comparison chart
 chart_f1 = alt.Chart(results_long[results_long['Metric'] == 'F1 Score']).mark_bar().encode(
     x=alt.X('Model:N', title='Model'),
-    y=alt.Y('Score:Q', title='F1 Score', scale=alt.Scale(domain=[0, 1])),
+    y=alt.Y('Score:Q', title='F1 Score (%)', scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format='%')),
     color='Model:N',
-    tooltip=['Model', 'Score']
+    tooltip=['Model', alt.Tooltip('Score', title='F1 Score (%):', format='.2%')]
 ).properties(
-    title='F1 Score Comparison'
+    height=300
 )
 
-# Display the chart in Streamlit
+"""#### Accuracy Comparison between KNN and Optimized KNN"""
 st.altair_chart(chart_accuracy, use_container_width=True)
+
+"""#### F1 Comparison between KNN and Optimized KNN"""
 st.altair_chart(chart_f1, use_container_width=True)
 
 
