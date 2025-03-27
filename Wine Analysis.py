@@ -308,7 +308,9 @@ classification_rep = classification_report(y_test, y_pred, zero_division=0) #cla
 
 st.write(f"Accuracy of Regular KNN: {accuracy:.4f}")
 st.write(f"F1 Score of Regular KNN: {f1:.4f}")
-st.write("Classification Report for Regular KNN:")
+
+
+"""#### Classification Report for KNN:"""
 st.text(classification_rep)
 
 """
@@ -363,9 +365,7 @@ chart_accuracy = alt.Chart(results_long[results_long['Metric'] == 'Accuracy']).m
     y=alt.Y('Score:Q', title='Accuracy (%)', scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format='%')),
     color='Model:N',
     tooltip=['Model', alt.Tooltip('Score', title='Accuracy:', format='.2%')]
-).properties(
-    height=300
-)
+).interactive()
 
 # Create the F1 Score comparison chart
 chart_f1 = alt.Chart(results_long[results_long['Metric'] == 'F1 Score']).mark_bar().encode(
@@ -373,9 +373,7 @@ chart_f1 = alt.Chart(results_long[results_long['Metric'] == 'F1 Score']).mark_ba
     y=alt.Y('Score:Q', title='F1 Score (%)', scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format='%')),
     color='Model:N',
     tooltip=['Model', alt.Tooltip('Score', title='F1 Score (%):', format='.2%')]
-).properties(
-    height=300
-)
+).interactive()
 
 """#### Accuracy Comparison between KNN and Optimized KNN"""
 st.altair_chart(chart_accuracy, use_container_width=True)
