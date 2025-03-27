@@ -191,24 +191,25 @@ st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right
 
 st.header("Data Pre-Processing")
 
-"""
-### Preview of Dataset After Standardization
-"""
-
 wine_df = wine_dataset.copy()
 
 X = wine_df.drop(columns=['quality'],axis=1)
 #X.head()
 
 y = wine_df['quality']
-#y
+
+st.dataframe(X.head())
+
+"""
+### Preview of Dataset After Standardization
+"""
 
 # Standardization
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
 
-st.dataframe(scaled_wine_df.head())
+st.dataframe(X_scaled_df.head())
 
 st.subheader("Residual Sugar - Before Standardization")
 st.altair_chart(
