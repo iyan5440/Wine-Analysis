@@ -54,7 +54,7 @@ st.altair_chart(
     ).interactive()
 )
 
-"""It seems like in terms of fixed acidity, Most of the wine samples, in that 6 to 10 level range. The data is skewed slightly to the left. Also the outliers from the 14th level onwards."""
+"""It seems like in terms of fixed acidity, most of the wine samples, vary in that 6 to 10 level range. The data is skewed slightly to the left. Also there are outliers from the 14th level onwards."""
 
 # Volatile Acidity distribution
 st.subheader("Levels of Volatile Acidity in Red Variants of Vinho Verde")
@@ -71,7 +71,7 @@ st.altair_chart(
     ).interactive()
 )
 
-"""For this attribute, Most of the wine samples, in that 0.1 to 1.0 level range, specifically within that 0.4 to 0.7 range. Any samples from around 1.2 onwards seem like outliers."""
+"""For this attribute, most of the wine samples, are in that 0.1 to 1.0 level range, centralized in the 0.4 to 0.7 range. Any samples from around 1.2 onwards seem like outliers."""
 
 # Citric Acid distribution
 st.subheader("Levels of Citric Acid in Red Variants of Vinho Verde")
@@ -88,7 +88,7 @@ st.altair_chart(
     ).interactive()
 )
 
-"""This attribute is interesting, because it doesn't follow a standard-like distribution in terms of its central tendency. There are three to four levels (0,0.2, 0.24, 0.49) that are the most common levels, and then the rest gravitate around those. It seems like there is an outlier over by the 1.0 level, though its difficult to tell if the any others are really an outlier here."""
+"""This attribute is interesting because it doesn't follow a standard-like distribution in terms of its orientation. There are three to four levels (0,0.2, 0.24, 0.49) that are the most common levels, with the most common by a mile being level 0. Afterwards, rest of the bins centre around those. It seems like there is an outlier over by the 1.0 level, though its difficult to tell if the any others are really an outlier here."""
 
 # Residual Sugar distribution
 st.subheader("Levels of Residual Sugar in Red Variants of Vinho Verde")
@@ -105,7 +105,7 @@ st.altair_chart(
     ).interactive()
 )
 
-"""For this attribute, Most of the wine samples, in that 0.9 to 6.0 level range, specifically within that 1 to 0.4 range. It's skewed slightly to the left. Any samples from around 7 onwards seem like outliers."""
+"""For this attribute, most of the wine samples are in the 0.9 to 6.0 level range, specifically within that 1 to 0.4 range. It's skewed slightly to the left. Any samples from around 7 onwards seem like outliers."""
 
 st.subheader("Levels of Chlorides in Red Variants of Vinho Verde")
 st.altair_chart(
@@ -121,7 +121,7 @@ st.altair_chart(
     ).interactive()
 )
 
-"""For this attribute, Most of the wine samples, in that 0.03 to 0.14 level range. It's skewed slightly to the left. Any samples from around .3 onwards seem like outliers."""
+"""For this attribute, most of the wine samples are in the 0.03 to 0.14 level range. It's skewed slightly to the left. Any samples from around .3 onwards seem like outliers."""
 
 # Free Sulfur Dioxide
 st.subheader("Levels of Free Sulfur Dioxide in Red Variants of Vinho Verde")
@@ -135,7 +135,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Most wine samples are in the 3-23 range, skewed left. Samples above 60 are likely outliers.")
+st.write("For this attribute, most wine samples are in the 3-23 range, skewed left. Samples above 60 are likely outliers.")
 
 # Total Sulfur Dioxide
 st.subheader("Levels of Total Sulfur Dioxide in Red Variants of Vinho Verde")
@@ -149,7 +149,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Most samples are in the 5-51 range, skewed left. Samples above 160 seem like outliers.")
+st.write("For this attribute, most samples are in the 5-51 range, skewed left. Samples above 160 seem like outliers.")
 
 # Density
 st.subheader("Levels of Density in Red Variants of Vinho Verde")
@@ -163,7 +163,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Standard-like distribution, no strong skew, main range: 0.994 - 1.001, no apparent outliers.")
+st.write("This attribute seems to approximate the behaviour of a standard distribution, no strong skew, main range: 0.994 - 1.001, no apparent outliers.")
 
 # pH
 st.subheader("Levels of pH in Red Variants of Vinho Verde")
@@ -177,7 +177,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Standard-like distribution, main range: 3.0 - 3.5. Outliers near 2.7 and above 3.9.")
+st.write("This attribute seems to approximate the behaviour of a standard distribution main range: 3.0 - 3.5. Outliers near 2.7 and above 3.9.")
 
 # Sulphates
 st.subheader("Levels of Sulphates in Red Variants of Vinho Verde")
@@ -191,7 +191,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Most samples range from 0.4 to 1.0, skewed left. Outliers appear above 1.5.")
+st.write("For this attribute, most samples range from 0.4 to 1.0, skewed left. Outliers appear above 1.5.")
 
 # Alcohol
 st.subheader("Levels of Alcohol in Red Variants of Vinho Verde")
@@ -205,7 +205,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Most samples range from 9 to 11, skewed left. Outliers near 8 and above 14.")
+st.write("For this attribute, most samples range from 9 to 11, skewed left. Outliers near 8 and above 14.")
 
 # Count occurrences of each quality level, filling missing categories with 0
 wine_dataset['quality'] = pd.Categorical(wine_dataset['quality'], categories=range(1, 11))
@@ -229,7 +229,7 @@ st.altair_chart(
         ]
     ).interactive()
 )
-st.write("Most samples are ranked 5 or 6. No samples for 1,2,9, or 10. The right side has slightly more samples.")
+st.write("For this attribute, most samples are ranked 5 or 6. No samples for 1,2,9, or 10. There is a slight ")
 
 st.header("Data Pre-Processing")
 
